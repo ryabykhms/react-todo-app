@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addTask} from '../../actions/actionCreator';
+import {addTask, completeTask, removeTask} from '../../actions/actionCreator';
 import './Todo.css';
 import Footer from '../../components/Footer/Footer';
 import TodoList from '../../components/TodoList/TodoList';
@@ -34,13 +34,13 @@ class Todo extends Component {
 
   render () {
     const {activeFilter, taskText} = this.state;
-    const {tasks} = this.props;
+    const {tasks, removeTask, completeTask} = this.props;
     const isTasksExist = tasks && tasks.length > 0;
 
     return (
       <div className="todo-wrapper">
         <TodoInput onKeyPress={this.addTask} onChange={this.handleInputChange} value={taskText} />
-        {isTasksExist && <TodoList tasksList={tasks} />}
+        {isTasksExist && <TodoList tasksList={tasks} removeTask={removeTask} completeTask={completeTask} />}
         {isTasksExist && <Footer amount={tasks.length} activeFilter={activeFilter} />}
       </div>
     )
@@ -49,5 +49,5 @@ class Todo extends Component {
 
 export default connect(state => ({
   tasks: state.tasks
-}), {addTask})(Todo);
+}), {addTask, removeTask, completeTask})(Todo);
 
