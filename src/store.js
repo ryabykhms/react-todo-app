@@ -1,5 +1,6 @@
-import {createStore, compose} from 'redux';
+import {createStore, compose, applyMiddleware} from 'redux';
 import rootReducer from './reducers/index';
+import {save} from 'redux-localstorage-simple';
 
 const composerEnhancers =
   process.env.NODE_ENV !== 'production' &&
@@ -11,7 +12,9 @@ const configureStore = preloadedState => (
   createStore(
     rootReducer,
     preloadedState,
-    composerEnhancers(),
+    composerEnhancers(
+      applyMiddleware(save({namespace: 'todo-list'}))
+    ),
   )
 );
 
